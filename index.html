@@ -349,32 +349,6 @@
       font-size: 0.75rem;
     }
 
-    .dev-toggle {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.35rem 0.7rem;
-      border-radius: 999px;
-      border: 1px dashed rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.6);
-      color: var(--text-muted);
-      font-size: 0.72rem;
-      cursor: pointer;
-      backdrop-filter: blur(12px);
-      outline: none;
-      white-space: nowrap;
-      transition:
-        background 0.4s ease,
-        border-color 0.4s ease,
-        color 0.4s ease;
-    }
-
-    .dev-toggle:hover {
-      color: var(--text-main);
-      border-style: solid;
-    }
-
     /* Glass buttons */
 
     .glass-button {
@@ -931,44 +905,6 @@
       color: var(--text-main);
     }
 
-    /* Orbit dev diagram */
-
-    .orbit-demo {
-      position: fixed;
-      inset: 0;
-      z-index: -0.5;
-      pointer-events: none;
-      display: none;
-    }
-
-    .orbit-demo.active {
-      display: block;
-    }
-
-    .orbit-ring {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: min(55vw, 600px);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      border: 1px dashed rgba(148, 163, 184, 0.4);
-      box-shadow: 0 0 40px rgba(15, 23, 42, 0.8) inset;
-      transform: translate(-50%, -50%);
-    }
-
-    .orbit-earth {
-      position: absolute;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #38bdf8, #0ea5e9 45%, #22c55e 100%);
-      box-shadow:
-        0 0 25px rgba(56, 189, 248, 0.8),
-        0 10px 25px rgba(15, 23, 42, 0.9);
-      transform: translate(-50%, -50%);
-    }
-
     /* ===== Light Theme Overrides ===== */
 
     body[data-theme="light"] {
@@ -1026,12 +962,6 @@
     body[data-theme="light"] .theme-toggle {
       background: rgba(255, 255, 255, 0.78);
       border-color: rgba(148, 163, 184, 0.7);
-      color: var(--text-main);
-    }
-
-    body[data-theme="light"] .dev-toggle {
-      background: rgba(255, 255, 255, 0.75);
-      border-color: rgba(148, 163, 184, 0.8);
       color: var(--text-main);
     }
 
@@ -1257,12 +1187,6 @@
     <div class="earth" id="earth-bg"></div>
   </div>
 
-  <!-- Orbit dev diagram -->
-  <div class="orbit-demo" id="orbit-demo">
-    <div class="orbit-ring"></div>
-    <div class="orbit-earth" id="orbit-earth"></div>
-  </div>
-
   <!-- Header -->
   <header class="site-header">
     <div class="brand">
@@ -1308,10 +1232,6 @@
       <button class="theme-toggle" type="button" aria-label="Toggle dark or light mode">
         <span class="theme-toggle-icon">☾</span>
         <span class="theme-toggle-label">Dark</span>
-      </button>
-
-      <button class="dev-toggle" type="button" id="orbit-toggle">
-        Orbit: Off
       </button>
 
       <a href="#get-involved" class="glass-button">
@@ -1600,12 +1520,7 @@
 
     const earth = document.getElementById("earth-bg");
     const shootingStarEl = document.getElementById("shooting-star");
-    const orbitDemo = document.getElementById("orbit-demo");
-    const orbitEarth = document.getElementById("orbit-earth");
-    const orbitToggleBtn = document.getElementById("orbit-toggle");
     const sunEl = document.getElementById("sun");
-
-    let orbitEnabled = false;
 
     function applyTheme(theme) {
       const isLight = theme === "light";
@@ -1631,27 +1546,6 @@
         applyTheme(next);
         handleScroll();
       });
-    }
-
-    if (orbitToggleBtn && orbitDemo && orbitEarth) {
-      orbitToggleBtn.addEventListener("click", () => {
-        orbitEnabled = !orbitEnabled;
-        orbitDemo.classList.toggle("active", orbitEnabled);
-        orbitToggleBtn.textContent = orbitEnabled ? "Orbit: On" : "Orbit: Off";
-        handleScroll();
-      });
-    }
-
-    function updateOrbit(scrolled) {
-      if (!orbitEnabled || !orbitEarth) return;
-      const angle = scrolled * 0.004;
-      const radius = Math.min(window.innerWidth, window.innerHeight) * 0.22;
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
-      orbitEarth.style.left = x + "px";
-      orbitEarth.style.top = y + "px";
     }
 
     function updateShootingStar(scrolled) {
@@ -1690,7 +1584,6 @@
           "translate3d(-50%," + offset.toFixed(1) + "px,0)";
       }
 
-      updateOrbit(scrolled);
       updateShootingStar(scrolled);
       updateSunGlow(scrolled);
     }
