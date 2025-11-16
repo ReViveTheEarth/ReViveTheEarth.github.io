@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ReVive – Recycling for a Regenerated Earth</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020b18;
+      --accent-blue: #38bdf8;
+      --accent-green: #22c55e;
+      --accent-muted: #0f766e;
+      --text-main: #e5faff;
+      --text-muted: #9ca3af;
+      --border-glass: rgba(148, 163, 184, 0.5);
+      --shadow-glass: 0 22px 60px rgba(15, 118, 110, 0.55);
+      --radius-lg: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Inter", sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #00010a 55%, #000 100%);
+      min-height: 100vh;
+      color: var(--text-main);
+      overflow-x: hidden;
+      transition:
+        background 0.9s ease,
+        color 0.6s ease;
+    }
+
+    /* ===== Background Sky, Stars, Moon, Sun ===== */
+
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .background::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(15, 118, 110, 0.75), transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(30, 64, 175, 0.8), transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(15, 23, 42, 0.9), transparent 70%);
+      mix-blend-mode: screen;
+      opacity: 0.85;
+      transition:
+        opacity 0.9s ease,
+        background 0.9s ease;
+    }
+
+    .sky {
+      position: absolute;
+      inset: 0;
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+      transition: opacity 0.8s ease;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: #e5faff;
+      box-shadow: 0 0 8px rgba(226, 232, 240, 0.8);
+      opacity: 0.7;
+      animation: twinkle 3.2s infinite alternate ease-in-out;
+    }
+
+    .star.star-1 { top: 10%; left: 12%; animation-delay: 0s; }
+    .star.star-2 { top: 18%; left: 40%; animation-delay: 0.4s; }
+    .star.star-3 { top: 8%;  left: 72%; animation-delay: 0.9s; }
+    .star.star-4 { top: 28%; left: 18%; animation-delay: 1.3s; }
+    .star.star-5 { top: 32%; left: 65%; animation-delay: 0.7s; }
+    .star.star-6 { top: 46%; left: 82%; animation-delay: 1.7s; }
+    .star.star-7 { top: 60%; left: 22%; animation-delay: 2.1s; }
+    .star.star-8 { top: 64%; left: 48%; animation-delay: 2.6s; }
+    .star.star-9 { top: 76%; left: 70%; animation-delay: 1.9s; }
+    .star.star-10 { top: 84%; left: 30%; animation-delay: 0.2s; }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; transform: scale(0.7); }
+      100% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .moon {
+      position: absolute;
+      right: 10%;
+      top: 12%;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #f9fafb, #e5e7eb 55%, #9ca3af 100%);
+      box-shadow:
+        0 0 18px rgba(248, 250, 252, 0.8),
+        0 12px 25px rgba(15, 23, 42, 0.95);
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      transition:
+        opacity 0.9s ease,
+        transform 0.9s ease;
+    }
+
+    .sun {
+      position: absolute;
+      left: 12%;
+      top: 12%;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: #fde047; /* solid sun */
+      box-shadow:
+        0 0 30px rgba(252, 211, 77, 0.75),
+        0 18px 40px rgba(15, 23, 42, 0.85);
+      opacity: 0;
+      transform: translateY(-140px) scale(0.95);
+      transition:
+        opacity 0.9s ease,
+        transform 0.9s ease,
+        box-shadow 0.6s ease;
+    }
+
+    .sun::before {
+      content: "";
+      position: absolute;
+      inset: -25%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, rgba(252, 211, 77, 0.65), transparent 70%);
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 230px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(248, 250, 252, 0.98));
+      border-radius: 999px;
+      box-shadow: 0 0 30px rgba(248, 250, 252, 0.95);
+      opacity: 1;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    /* ===== Big Earth background (uses icon) ===== */
+
+    .earth-orbit {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .earth {
+      position: absolute;
+      left: 50%;
+      top: -22vh;
+      transform: translate3d(-50%, 0, 0);
+      width: min(70vw, 900px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      /* EXACT icon look – put earth-icon.png next to this HTML file */
+      background: url("earth-icon.png") center/contain no-repeat;
+      background-color: #1d9bf0; /* fallback ocean if image fails */
+      box-shadow: 0 40px 120px rgba(8, 47, 73, 0.8);
+    }
+
+    .earth::before {
+      content: "";
+      position: absolute;
+      inset: -10%;
+      border-radius: 50%;
+      box-shadow: 0 0 80px rgba(34, 197, 94, 0.35);
+      background: transparent;
+      pointer-events: none;
+    }
+
+    /* ==== Layout ==== */
+
+    .page {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      padding: 0 clamp(1.5rem, 4vw, 3rem) 4rem;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 0.75rem clamp(1.5rem, 4vw, 3rem) 1.4rem;
+      backdrop-filter: blur(26px);
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 23, 42, 0.95),
+        rgba(15, 23, 42, 0.88),
+        rgba(15, 23, 42, 0.7),
+        transparent
+      );
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8);
+      transition:
+        background 0.6s ease,
+        border-color 0.6s ease,
+        box-shadow 0.6s ease;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 8px 18px rgba(8, 47, 73, 0.9));
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      font-size: 1rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.25rem;
+    }
+
+    .brand-title span:nth-child(1) {
+      color: var(--accent-blue);
+    }
+
+    .brand-title span:nth-child(2) {
+      color: var(--accent-green);
+    }
+
+    .brand-subtitle {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-link {
+      position: relative;
+      padding: 0.35rem 0.4rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.01em;
+      font-weight: 500;
+      transition: color 0.2s ease-out;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(to right, var(--accent-blue), var(--accent-green));
+      transition: width 0.25s ease-out;
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .theme-toggle {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      cursor: pointer;
+      backdrop-filter: blur(16px);
+      outline: none;
+      white-space: nowrap;
+      transition:
+        background 0.4s ease,
+        border-color 0.4s ease,
+        color 0.4s ease;
+    }
+
+    .theme-toggle-icon {
+      font-size: 0.9rem;
+      line-height: 1;
+    }
+
+    .theme-toggle-label {
+      font-size: 0.75rem;
+    }
+
+    .dev-toggle {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.6);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      outline: none;
+      white-space: nowrap;
+      transition:
+        background 0.4s ease,
+        border-color 0.4s ease,
+        color 0.4s ease;
+    }
+
+    .dev-toggle:hover {
+      color: var(--text-main);
+      border-style: solid;
+    }
+
+    /* Glass buttons */
+
+    .glass-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.75rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: radial-gradient(circle at 50% 50%, rgba(148, 163, 184, 0.25), transparent 60%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(8, 47, 73, 0.98));
+      backdrop-filter: blur(26px);
+      color: var(--text-main);
+      font-size: 0.82rem;
+      text-transform: none;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 16px 40px rgba(15, 118, 110, 0.42);
+      transition:
+        transform 0.2s ease-out,
+        box-shadow 0.2s ease-out,
+        border-color 0.2s ease-out,
+        background 0.25s ease-out;
+      isolation: isolate;
+    }
+
+    .glass-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        rgba(56, 189, 248, 0.22),
+        rgba(34, 197, 94, 0.16),
+        transparent 75%
+      );
+      opacity: 0;
+      mix-blend-mode: screen;
+      transition: opacity 0.25s ease-out;
+    }
+
+    .glass-button span.label {
+      position: relative;
+      z-index: 1;
+    }
+
+    .glass-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 22px 60px rgba(8, 47, 73, 0.8);
+      border-color: rgba(94, 234, 212, 0.85);
+    }
+
+    .glass-button:hover::before {
+      opacity: 1;
+    }
+
+    .glass-button--ghost {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(8, 47, 73, 0.9));
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.7);
+      border-color: rgba(148, 163, 184, 0.35);
+    }
+
+    .glass-button--ghost:hover {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(8, 47, 73, 0.98));
+    }
+
+    /* Hero */
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 2.25rem;
+      align-items: center;
+      padding-top: 3rem;
+      padding-bottom: 4rem;
+    }
+
+    .hero-text {
+      max-width: 32rem;
+    }
+
+    .eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+      color: var(--accent-blue);
+      margin-bottom: 0.75rem;
+      text-transform: none;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 3.3vw + 1.5rem, 3.3rem);
+      line-height: 1.08;
+      margin-bottom: 1rem;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-title span.highlight {
+      background: linear-gradient(to right, var(--accent-blue), var(--accent-green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      max-width: 30rem;
+      line-height: 1.6;
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.9rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .hero-meta-label {
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-size: 0.68rem;
+      color: rgba(148, 163, 184, 0.85);
+    }
+
+    .hero-meta-value {
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    /* Counter card */
+
+    .counter-card {
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.22), transparent 55%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(8, 47, 73, 0.99));
+      border-radius: var(--radius-lg);
+      padding: 1.6rem 1.4rem;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      box-shadow: var(--shadow-glass);
+      backdrop-filter: blur(30px);
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .counter-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.3), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(34, 197, 94, 0.35), transparent 55%);
+      opacity: 0.45;
+      mix-blend-mode: screen;
+    }
+
+    .counter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      gap: 0.5rem;
+    }
+
+    .counter-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: rgba(148, 163, 184, 0.9);
+    }
+
+    .counter-pill {
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      padding: 0.28rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.8);
+      color: rgba(226, 232, 240, 0.95);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.4), transparent 60%),
+        rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(16px);
+      white-space: nowrap;
+    }
+
+    .counter-main {
+      position: relative;
+      z-index: 1;
+    }
+
+    .counter-value {
+      font-size: clamp(2.4rem, 1.2vw + 2.1rem, 3rem);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .counter-value span.unit {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(148, 163, 184, 0.95);
+    }
+
+    .counter-subtext {
+      margin-top: 0.3rem;
+      font-size: 0.84rem;
+      color: rgba(209, 213, 219, 0.95);
+    }
+
+    .counter-footer {
+      border-top: 1px solid rgba(30, 64, 175, 0.6);
+      margin-top: 1.1rem;
+      padding-top: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      position: relative;
+      z-index: 1;
+      font-size: 0.78rem;
+      color: rgba(148, 163, 184, 0.95);
+    }
+
+    .counter-mini-label {
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-size: 0.64rem;
+      color: rgba(148, 163, 184, 0.85);
+      margin-bottom: 0.15rem;
+    }
+
+    .counter-mini-value {
+      color: rgba(226, 232, 240, 0.95);
+      font-weight: 500;
+    }
+
+    section {
+      margin-bottom: 3rem;
+    }
+
+    .section-heading {
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      color: rgba(148, 163, 184, 0.95);
+      margin-bottom: 0.65rem;
+      text-transform: none;
+    }
+
+    .section-title {
+      font-size: 1.45rem;
+      margin-bottom: 0.7rem;
+      letter-spacing: 0.01em;
+    }
+
+    .section-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 34rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .glass-panel {
+      background:
+        linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(8, 47, 73, 0.98));
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-glass);
+      box-shadow: var(--shadow-glass);
+      padding: 1.4rem 1.5rem 1.6rem;
+      backdrop-filter: blur(26px);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .glass-panel::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.28), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(34, 197, 94, 0.28), transparent 55%);
+      opacity: 0.3;
+      mix-blend-mode: screen;
+    }
+
+    .glass-panel-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: 1.75rem;
+    }
+
+    .about-pill-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+    }
+
+    .about-pill {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.65);
+      color: rgba(226, 232, 240, 0.95);
+      backdrop-filter: blur(16px);
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .about-stat {
+      padding: 0.85rem 0.9rem;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 55%),
+        rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(30, 64, 175, 0.65);
+      font-size: 0.82rem;
+    }
+
+    .about-stat strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .step-card {
+      padding: 1rem 1rem 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.23), transparent 55%),
+        rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-index {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: rgba(148, 163, 184, 0.9);
+      margin-bottom: 0.5rem;
+    }
+
+    .step-title {
+      font-size: 0.96rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .step-body {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+
+    .impact-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    .impact-badge {
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.8);
+      background: rgba(21, 128, 61, 0.3);
+      color: rgba(220, 252, 231, 0.95);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .impact-bar {
+      margin-top: 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      padding: 0.25rem;
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.22), transparent 55%),
+        rgba(15, 23, 42, 0.95);
+    }
+
+    .impact-bar-inner {
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--accent-blue), var(--accent-green));
+      width: 68%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .impact-bar-inner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.5), transparent);
+      mix-blend-mode: screen;
+      opacity: 0.4;
+      transform: translateX(-100%);
+      animation: shimmer 2.8s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .impact-kpis {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 0.9rem;
+      font-size: 0.82rem;
+    }
+
+    .impact-kpi {
+      flex: 1 1 7rem;
+    }
+
+    .impact-kpi-label {
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-size: 0.66rem;
+      color: rgba(148, 163, 184, 0.9);
+      margin-bottom: 0.2rem;
+    }
+
+    .impact-kpi-value {
+      font-weight: 600;
+      color: rgba(226, 232, 240, 0.98);
+    }
+
+    .involved-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .involved-card {
+      padding: 0.95rem 1rem 1.1rem;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background:
+        radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.22), transparent 55%),
+        rgba(15, 23, 42, 0.98);
+      backdrop-filter: blur(22px);
+      font-size: 0.82rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .involved-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+    }
+
+    .tag-chip {
+      align-self: flex-start;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.23rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.8);
+      color: rgba(226, 232, 240, 0.95);
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    footer {
+      padding-top: 2.2rem;
+      padding-bottom: 1rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      border-top: 1px solid rgba(15, 23, 42, 0.85);
+      margin-top: 1.5rem;
+      transition: border-color 0.6s ease;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .footer-link {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .footer-link:hover {
+      color: var(--text-main);
+    }
+
+    /* Orbit dev diagram */
+
+    .orbit-demo {
+      position: fixed;
+      inset: 0;
+      z-index: -0.5;
+      pointer-events: none;
+      display: none;
+    }
+
+    .orbit-demo.active {
+      display: block;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(55vw, 600px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px dashed rgba(148, 163, 184, 0.4);
+      box-shadow: 0 0 40px rgba(15, 23, 42, 0.8) inset;
+      transform: translate(-50%, -50%);
+    }
+
+    .orbit-earth {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #38bdf8, #0ea5e9 45%, #22c55e 100%);
+      box-shadow:
+        0 0 25px rgba(56, 189, 248, 0.8),
+        0 10px 25px rgba(15, 23, 42, 0.9);
+      transform: translate(-50%, -50%);
+    }
+
+    /* ===== Light Theme Overrides ===== */
+
+    body[data-theme="light"] {
+      --text-main: #020617;
+      --text-muted: #020617;  /* no grey in light mode */
+      background: radial-gradient(circle at top, #e0f2fe 0, #ecfeff 45%, #f0fdf4 100%);
+      color: var(--text-main);
+    }
+
+    body[data-theme="light"] .background::before {
+      background:
+        radial-gradient(circle at 30% 0%, rgba(56, 189, 248, 0.35), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.3), transparent 60%),
+        radial-gradient(circle at 50% 100%, rgba(191, 219, 254, 0.5), transparent 70%);
+      opacity: 0.9;
+    }
+
+    body[data-theme="light"] .stars { opacity: 0; }
+
+    body[data-theme="light"] .moon {
+      opacity: 0;
+      transform: translateY(-120px) scale(0.9);
+    }
+
+    body[data-theme="light"] .sun {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    body[data-theme="light"] .shooting-star { opacity: 0; }
+
+    body[data-theme="light"] .earth {
+      box-shadow:
+        0 40px 120px rgba(148, 163, 184, 0.55);
+      opacity: 0.98;
+    }
+
+    body[data-theme="light"] .earth::before {
+      box-shadow: 0 0 80px rgba(56, 189, 248, 0.35);
+      background: transparent;
+    }
+
+    body[data-theme="light"] .site-header {
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.95),
+        rgba(241, 245, 249, 0.95),
+        rgba(241, 245, 249, 0.8),
+        transparent
+      );
+      border-bottom: 1px solid rgba(209, 213, 219, 0.9);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.14);
+    }
+
+    body[data-theme="light"] .theme-toggle {
+      background: rgba(255, 255, 255, 0.78);
+      border-color: rgba(148, 163, 184, 0.7);
+      color: var(--text-main);
+    }
+
+    body[data-theme="light"] .dev-toggle {
+      background: rgba(255, 255, 255, 0.75);
+      border-color: rgba(148, 163, 184, 0.8);
+      color: var(--text-main);
+    }
+
+    /* Light mode buttons keep liquid glow + border highlight */
+    body[data-theme="light"] .glass-button {
+      background:
+        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.12), transparent 60%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(241, 245, 249, 0.98));
+      color: var(--text-main);
+      border-color: rgba(148, 163, 184, 0.9);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    body[data-theme="light"] .glass-button::before {
+      mix-blend-mode: normal;
+      background: radial-gradient(
+        circle at var(--x, 50%) var(--y, 50%),
+        rgba(56, 189, 248, 0.35),
+        rgba(34, 197, 94, 0.25),
+        transparent 75%
+      );
+    }
+
+    body[data-theme="light"] .glass-button:hover {
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.22);
+      border-color: rgba(56, 189, 248, 0.9);
+    }
+
+    body[data-theme="light"] .glass-button--ghost {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.98));
+      border-color: rgba(148, 163, 184, 0.9);
+    }
+
+    body[data-theme="light"] .glass-panel {
+      background:
+        radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.12), transparent 55%),
+        linear-gradient(135deg, #f9fafb, #e5f3ff);
+      border-color: rgba(209, 213, 219, 0.9);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+    }
+
+    body[data-theme="light"] .glass-panel::before {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.2), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(34, 197, 94, 0.2), transparent 55%);
+      opacity: 0.4;
+    }
+
+    body[data-theme="light"] .counter-card {
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.14), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.16), transparent 55%),
+        linear-gradient(135deg, #ffffff, #eef2ff);
+      border-color: rgba(209, 213, 219, 0.9);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+    }
+
+    /* Light mode styling for the "Live Earth Metric" pill */
+    body[data-theme="light"] .counter-pill {
+      background: linear-gradient(135deg, #eff6ff, #e0f2fe);
+      color: #020617;
+      border-color: rgba(59, 130, 246, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    body[data-theme="light"] .about-stat,
+    body[data-theme="light"] .step-card,
+    body[data-theme="light"] .involved-card {
+      background:
+        radial-gradient(circle at 0 0, rgba(59, 130, 246, 0.12), transparent 55%),
+        linear-gradient(135deg, #ffffff, #f1f5f9);
+      border-color: rgba(209, 213, 219, 0.9);
+    }
+
+    body[data-theme="light"] .impact-bar {
+      background:
+        radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.14), transparent 55%),
+        linear-gradient(135deg, #ffffff, #e5f3ff);
+      border-color: rgba(209, 213, 219, 0.9);
+    }
+
+    body[data-theme="light"] .impact-badge {
+      background: rgba(187, 247, 208, 0.9);
+      border-color: rgba(22, 163, 74, 0.9);
+      color: #064e3b;
+    }
+
+    body[data-theme="light"] .tag-chip {
+      background: rgba(219, 234, 254, 0.9);
+      color: #1e293b;
+      border-color: rgba(59, 130, 246, 0.8);
+    }
+
+    body[data-theme="light"] footer {
+      border-top-color: rgba(209, 213, 219, 0.9);
+      color: var(--text-main);
+    }
+
+    /* Make all previously-grey text dark in light mode (counter-pill handled separately) */
+    body[data-theme="light"] .hero-subtitle,
+    body[data-theme="light"] .section-sub,
+    body[data-theme="light"] .step-body,
+    body[data-theme="light"] .hero-meta,
+    body[data-theme="light"] .hero-meta-label,
+    body[data-theme="light"] .hero-meta-value,
+    body[data-theme="light"] .section-heading,
+    body[data-theme="light"] .counter-label,
+    body[data-theme="light"] .counter-value span.unit,
+    body[data-theme="light"] .counter-subtext,
+    body[data-theme="light"] .counter-footer,
+    body[data-theme="light"] .counter-mini-label,
+    body[data-theme="light"] .counter-mini-value,
+    body[data-theme="light"] .impact-kpi-label,
+    body[data-theme="light"] .impact-kpi-value,
+    body[data-theme="light"] .about-stat,
+    body[data-theme="light"] .about-stat strong,
+    body[data-theme="light"] .footer-link,
+    body[data-theme="light"] footer,
+    body[data-theme="light"] .nav-link {
+      color: #020617;
+    }
+
+    body[data-theme="light"] .footer-link:hover {
+      color: #020617;
+      text-decoration: underline;
+    }
+
+    /* Scroll reveal */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition:
+        opacity 0.7s ease-out,
+        transform 0.7s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-text {
+        order: 1;
+      }
+
+      .counter-card {
+        order: 0;
+      }
+
+      .about-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .impact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .steps-grid,
+      .involved-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .site-header {
+        padding-top: 0.8rem;
+        padding-bottom: 1.1rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 0 1rem 3rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .steps-grid,
+      .involved-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero {
+        padding-top: 2.4rem;
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <!-- Background sky + elements -->
+  <div class="background">
+    <div class="sky">
+      <div class="stars">
+        <span class="star star-1"></span>
+        <span class="star star-2"></span>
+        <span class="star star-3"></span>
+        <span class="star star-4"></span>
+        <span class="star star-5"></span>
+        <span class="star star-6"></span>
+        <span class="star star-7"></span>
+        <span class="star star-8"></span>
+        <span class="star star-9"></span>
+        <span class="star star-10"></span>
+      </div>
+      <div class="moon" id="moon"></div>
+      <div class="sun" id="sun"></div>
+      <div class="shooting-star" id="shooting-star"></div>
+    </div>
+  </div>
+
+  <!-- Big Earth background -->
+  <div class="earth-orbit">
+    <div class="earth" id="earth-bg"></div>
+  </div>
+
+  <!-- Orbit dev diagram -->
+  <div class="orbit-demo" id="orbit-demo">
+    <div class="orbit-ring"></div>
+    <div class="orbit-earth" id="orbit-earth"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="brand">
+      <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id="logoEarth" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#38bdf8" />
+            <stop offset="50%" stop-color="#22c55e" />
+            <stop offset="100%" stop-color="#0ea5e9" />
+          </linearGradient>
+        </defs>
+        <circle cx="32" cy="32" r="18" fill="url(#logoEarth)" />
+        <circle cx="32" cy="32" r="18" fill="none" stroke="#0f172a" stroke-opacity="0.5" stroke-width="1.3" />
+        <path d="M22 32h20M32 22v20" stroke="#e5faff" stroke-opacity="0.25" stroke-width="1.2" />
+        <g stroke="#e0f2fe" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 30c1-6 6-11 12-12" />
+          <path d="M28 16 29.5 19 26.5 20.5" />
+          <path d="M48 34c-1 6-6 11-12 12" />
+          <path d="M36 48 34.5 45 37.5 43.5" />
+          <path d="M24 44c-3-2-5-5.5-6-9" />
+          <path d="M18 34 20.5 32 22 35" />
+        </g>
+      </svg>
+
+      <div class="brand-text">
+        <div class="brand-title">
+          <span>Re</span><span>Vive</span>
+        </div>
+        <div class="brand-subtitle">
+          CIRCULAR EARTH COLLECTIVE
+        </div>
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav-links">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#how" class="nav-link">How it works</a>
+        <a href="#impact" class="nav-link">Impact</a>
+        <a href="#get-involved" class="nav-link">Get involved</a>
+      </div>
+
+      <button class="theme-toggle" type="button" aria-label="Toggle dark or light mode">
+        <span class="theme-toggle-icon">☾</span>
+        <span class="theme-toggle-label">Dark</span>
+      </button>
+
+      <button class="dev-toggle" type="button" id="orbit-toggle">
+        Orbit: Off
+      </button>
+
+      <a href="#get-involved" class="glass-button">
+        <span class="label">Join the mission</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <div class="page">
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-text reveal">
+          <div class="eyebrow">Futuristic recycling, grounded in Earth.</div>
+          <h1 class="hero-title">
+            Give waste a <span class="highlight">second life</span> before it ever reaches the landfill.
+          </h1>
+          <p class="hero-subtitle">
+            ReVive connects homes, schools, and businesses with high-impact recycling streams.
+            Track every kilogram, see your impact in real time, and help the planet regenerate.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#get-involved" class="glass-button">
+              <span class="label">Start recycling with ReVive</span>
+            </a>
+            <a href="#impact" class="glass-button glass-button--ghost">
+              <span class="label">View real-time impact</span>
+            </a>
+          </div>
+
+          <div class="hero-meta">
+            <div class="hero-meta-item">
+              <div class="hero-meta-label">Operating</div>
+              <div class="hero-meta-value">Local drop-off hubs + partner pickups</div>
+            </div>
+            <div class="hero-meta-item">
+              <div class="hero-meta-label">Materials</div>
+              <div class="hero-meta-value">Plastics, metals, e-waste, textiles &amp; more</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="counter-card reveal">
+          <div class="counter-header">
+            <div class="counter-label">Total weight recycled</div>
+            <div class="counter-pill">Live Earth Metric</div>
+          </div>
+          <div class="counter-main">
+            <div class="counter-value">
+              <span id="recycle-counter" data-target="12345">0</span>
+              <span class="unit">kg</span>
+            </div>
+            <p class="counter-subtext">
+              Aggregated from all ReVive partners, smart bins and verified community drop-offs.
+            </p>
+          </div>
+          <div class="counter-footer">
+            <div>
+              <div class="counter-mini-label">Today</div>
+              <div class="counter-mini-value">+312 kg recovered</div>
+            </div>
+            <div>
+              <div class="counter-mini-label">CO₂ offset (est.)</div>
+              <div class="counter-mini-value">~18.4 tonnes</div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="reveal">
+        <h2 class="section-heading">About ReVive</h2>
+        <div class="glass-panel">
+          <div class="glass-panel-inner about-layout">
+            <div>
+              <h3 class="section-title">A circular platform with an earthy heartbeat.</h3>
+              <p class="section-sub">
+                ReVive is a recycling organization built to feel like the future while staying rooted
+                in the planet beneath our feet. We map local materials, route them to ethical
+                processors, and surface your impact in a single, living dashboard.
+              </p>
+              <p style="font-size:0.85rem;color:var(--text-main);line-height:1.6;">
+                Instead of tossing “trash” into a black box, ReVive shows you exactly how your
+                plastics, metals, and e-waste flow back into new products, keeping resources in
+                motion and out of landfills.
+              </p>
+              <ul class="about-pill-list">
+                <li class="about-pill">Community drop-off hubs</li>
+                <li class="about-pill">Partner logistics network</li>
+                <li class="about-pill">Transparent material tracking</li>
+                <li class="about-pill">Education &amp; workshops</li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="about-stats">
+                <div class="about-stat">
+                  <strong>+12k kg</strong>
+                  diverted from landfill streams.
+                </div>
+                <div class="about-stat">
+                  <strong>87%</strong>
+                  of participants report recycling more often.
+                </div>
+                <div class="about-stat">
+                  <strong>24</strong>
+                  partner organizations and counting.
+                </div>
+                <div class="about-stat">
+                  <strong>4</strong>
+                  active material categories per hub.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section id="how" class="reveal">
+        <h2 class="section-heading">How it works</h2>
+        <h3 class="section-title">A simple flow for complex waste streams.</h3>
+        <p class="section-sub">
+          We keep it intuitive on the surface and intelligent underneath. Every step is tracked,
+          timestamped, and rolled into that live counter you see on the home screen.
+        </p>
+
+        <div class="steps-grid">
+          <article class="step-card">
+            <div class="step-index">01 — Scan &amp; sort</div>
+            <div class="step-title">Drop off at a ReVive hub</div>
+            <p class="step-body">
+              Bring plastics, metals, cardboard, e-waste and more. Our signage &amp; smart scales
+              guide you to place each item in the right stream for accurate weight tracking.
+            </p>
+          </article>
+          <article class="step-card">
+            <div class="step-index">02 — Route &amp; recover</div>
+            <div class="step-title">We move materials intelligently</div>
+            <p class="step-body">
+              We batch materials and route them to vetted recyclers. Each shipment is logged so
+              your contribution flows straight into the live ReVive impact ledger.
+            </p>
+          </article>
+          <article class="step-card">
+            <div class="step-index">03 — Visualize &amp; share</div>
+            <div class="step-title">Watch the counter rise</div>
+            <p class="step-body">
+              Your kilograms update the global ReVive counter and your personal dashboard.
+              Share your milestones and invite others to amplify the impact.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Impact -->
+      <section id="impact" class="reveal">
+        <h2 class="section-heading">Impact</h2>
+        <div class="glass-panel">
+          <div class="glass-panel-inner impact-grid">
+            <div>
+              <h3 class="section-title">Every kilogram tells a story.</h3>
+              <p class="section-sub">
+                We translate those digits into real-world outcomes: emissions avoided, materials
+                looped back into products, and neighborhoods that feel tangibly cleaner.
+              </p>
+
+              <div class="impact-badges">
+                <span class="impact-badge">Plastics to pellets</span>
+                <span class="impact-badge">Metals remelted</span>
+                <span class="impact-badge">E-waste demanufactured</span>
+              </div>
+
+              <div class="impact-bar">
+                <div class="impact-bar-inner"></div>
+              </div>
+
+              <div class="impact-kpis">
+                <div class="impact-kpi">
+                  <div class="impact-kpi-label">Landfill diversion</div>
+                  <div class="impact-kpi-value">68% of inbound material</div>
+                </div>
+                <div class="impact-kpi">
+                  <div class="impact-kpi-label">Community members</div>
+                  <div class="impact-kpi-value">400+ active recyclers</div>
+                </div>
+                <div class="impact-kpi">
+                  <div class="impact-kpi-label">Partner routes</div>
+                  <div class="impact-kpi-value">12 weekly pickups</div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p style="font-size:0.85rem;color:var(--text-main);line-height:1.7;margin-bottom:0.9rem;">
+                ReVive is built for transparency. In a live deployment, this section links directly
+                to:
+              </p>
+              <ul style="font-size:0.8rem;color:var(--text-main);line-height:1.6;list-style:disc;padding-left:1.1rem;">
+                <li>Open impact reports broken down by material and hub.</li>
+                <li>Verified recycler partners and their processing methods.</li>
+                <li>Stories from schools, businesses, and neighborhoods using ReVive.</li>
+              </ul>
+              <p style="font-size:0.8rem;color:var(--text-main);line-height:1.6;margin-top:0.9rem;">
+                For your build, you can connect the counter to a database or API so every new bag,
+                box, or device dropped off pushes this impact data live.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Get involved -->
+      <section id="get-involved" class="reveal">
+        <h2 class="section-heading">Get involved</h2>
+        <h3 class="section-title">Choose how you want to ReVive your corner of Earth.</h3>
+        <p class="section-sub">
+          Whether you’re an individual, a school, or a company, there’s an on-ramp that fits your
+          pace and your impact goals.
+        </p>
+
+        <div class="involved-grid">
+          <article class="involved-card">
+            <span class="tag-chip">Individuals</span>
+            <div class="involved-title">Set up your personal ReVive ID</div>
+            <p>
+              Track every kilogram you drop off and watch your personal counter grow alongside
+              Earth’s. Great for households and roommates.
+            </p>
+            <div style="margin-top:auto;">
+              <button class="glass-button glass-button--ghost" type="button">
+                <span class="label">Create ID</span>
+              </button>
+            </div>
+          </article>
+
+          <article class="involved-card">
+            <span class="tag-chip">Schools</span>
+            <div class="involved-title">Launch a campus ReVive hub</div>
+            <p>
+              Turn recycling into a living science project. Run competitions between classes and
+              stream your live counter in the hallway.
+            </p>
+            <div style="margin-top:auto;">
+              <button class="glass-button glass-button--ghost" type="button">
+                <span class="label">Start a hub</span>
+              </button>
+            </div>
+          </article>
+
+          <article class="involved-card">
+            <span class="tag-chip">Organizations</span>
+            <div class="involved-title">Partner as a ReVive node</div>
+            <p>
+              Plug your business into our logistics map, host a collection point, and showcase
+              certified impact to your team and customers.
+            </p>
+            <div style="margin-top:auto;">
+              <button class="glass-button glass-button--ghost" type="button">
+                <span class="label">Partner with ReVive</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div>© <span id="year"></span> ReVive Circular Earth Collective. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#about" class="footer-link">About</a>
+        <a href="#impact" class="footer-link">Impact</a>
+        <a href="#get-involved" class="footer-link">Contact &amp; partnerships</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const bodyEl = document.body;
+    const themeToggle = document.querySelector(".theme-toggle");
+    const themeToggleLabel = document.querySelector(".theme-toggle-label");
+    const themeToggleIcon = document.querySelector(".theme-toggle-icon");
+
+    const earth = document.getElementById("earth-bg");
+    const shootingStarEl = document.getElementById("shooting-star");
+    const orbitDemo = document.getElementById("orbit-demo");
+    const orbitEarth = document.getElementById("orbit-earth");
+    const orbitToggleBtn = document.getElementById("orbit-toggle");
+    const sunEl = document.getElementById("sun");
+
+    let orbitEnabled = false;
+
+    function applyTheme(theme) {
+      const isLight = theme === "light";
+      bodyEl.setAttribute("data-theme", isLight ? "light" : "dark");
+      if (themeToggleLabel && themeToggleIcon) {
+        themeToggleLabel.textContent = isLight ? "Light" : "Dark";
+        themeToggleIcon.textContent = isLight ? "☀︎" : "☾";
+      }
+    }
+
+    const savedTheme = window.localStorage.getItem("revive-theme");
+    if (savedTheme === "light" || savedTheme === "dark") {
+      applyTheme(savedTheme);
+    } else {
+      applyTheme("dark");
+    }
+
+    if (themeToggle) {
+      themeToggle.addEventListener("click", () => {
+        const current = bodyEl.getAttribute("data-theme") === "light" ? "light" : "dark";
+        const next = current === "light" ? "dark" : "light";
+        window.localStorage.setItem("revive-theme", next);
+        applyTheme(next);
+        handleScroll();
+      });
+    }
+
+    if (orbitToggleBtn && orbitDemo && orbitEarth) {
+      orbitToggleBtn.addEventListener("click", () => {
+        orbitEnabled = !orbitEnabled;
+        orbitDemo.classList.toggle("active", orbitEnabled);
+        orbitToggleBtn.textContent = orbitEnabled ? "Orbit: On" : "Orbit: Off";
+        handleScroll();
+      });
+    }
+
+    function updateOrbit(scrolled) {
+      if (!orbitEnabled || !orbitEarth) return;
+      const angle = scrolled * 0.004;
+      const radius = Math.min(window.innerWidth, window.innerHeight) * 0.22;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+      orbitEarth.style.left = x + "px";
+      orbitEarth.style.top = y + "px";
+    }
+
+    function updateShootingStar(scrolled) {
+      if (!shootingStarEl) return;
+      const startX = window.innerWidth + 220;
+      const startY = -150;
+      const endX = -260;
+      const endY = window.innerHeight + 180;
+      const cycle = 2000;
+      const progress = (scrolled % cycle) / cycle;
+      const x = startX + (endX - startX) * progress;
+      const y = startY + (endY - startY) * progress;
+      shootingStarEl.style.transform =
+        "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px) rotate(-45deg)";
+    }
+
+    function updateSunGlow(scrolled) {
+      if (!sunEl) return;
+      if (bodyEl.getAttribute("data-theme") !== "light") return;
+
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const fraction = docHeight > 0 ? Math.min(scrolled / docHeight, 1) : 0;
+      const glowRadius = 40 + fraction * 60;
+      const outerGlow = glowRadius.toFixed(1) + "px";
+
+      sunEl.style.boxShadow =
+        "0 0 " + outerGlow + " rgba(252, 211, 77, 0.95), 0 22px 60px rgba(15, 23, 42, 0.65)";
+    }
+
+    function handleScroll() {
+      const scrolled = window.scrollY || window.pageYOffset;
+
+      if (earth) {
+        const offset = scrolled * 0.25;
+        earth.style.transform =
+          "translate3d(-50%," + offset.toFixed(1) + "px,0)";
+      }
+
+      updateOrbit(scrolled);
+      updateShootingStar(scrolled);
+      updateSunGlow(scrolled);
+    }
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Liquid-glow hover
+    const glassButtons = document.querySelectorAll(".glass-button");
+    glassButtons.forEach((btn) => {
+      btn.addEventListener("mousemove", (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        btn.style.setProperty("--x", x + "px");
+        btn.style.setProperty("--y", y + "px");
+      });
+      btn.addEventListener("mouseleave", () => {
+        btn.style.removeProperty("--x");
+        btn.style.removeProperty("--y");
+      });
+    });
+
+    // Animated counter
+    function animateCounter() {
+      const el = document.getElementById("recycle-counter");
+      if (!el) return;
+      const target = parseInt(el.dataset.target || "0", 10);
+      const duration = 2600;
+      const start = performance.now();
+
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.floor(target * eased);
+        el.textContent = value.toLocaleString();
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      animateCounter();
+      handleScroll();
+      document.getElementById("year").textContent = new Date().getFullYear();
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.18 }
+    );
+    revealEls.forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
