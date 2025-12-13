@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '../components/home/Navbar';
 import Footer from '../components/home/Footer';
-import { TrendingUp, Leaf, Droplets, Wind, TreePine, Factory } from 'lucide-react';
+import { TrendingUp, Leaf, Droplets, Wind, TreePine, Factory } from '../components/ui/icons';
 
 export default function Impact() {
   const stats = [

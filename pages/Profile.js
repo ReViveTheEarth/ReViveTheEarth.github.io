@@ -7,7 +7,7 @@ import Footer from '../components/home/Footer';
 import LiquidGlassButton from '../components/ui/LiquidGlassButton';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { User, Mail, Phone, MapPin, FileText, Building2, Loader2, Save } from 'lucide-react';
+import { User, Mail, Phone, MapPin, FileText, Building2, Loader2, Save } from '../components/ui/icons';
 
 export default function Profile() {
   const [user, setUser] = useState(null);

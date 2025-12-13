@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/home/Navbar';
 import Footer from '../components/home/Footer';
 import LiquidGlassButton from '../components/ui/LiquidGlassButton';
-import { MapPin, Search, Clock, Phone, Navigation } from 'lucide-react';
+import { MapPin, Search, Clock, Phone, Navigation } from '../components/ui/icons';
 import { Input } from '@/components/ui/input';
 
 export default function Locations() {

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/home/Navbar';
 import Footer from '../components/home/Footer';
 import LiquidGlassButton from '../components/ui/LiquidGlassButton';
-import { Users, Trophy, Heart, MessageSquare, Star, Award } from 'lucide-react';
+import { Users, Trophy, Heart, MessageSquare, Star, Award } from '../components/ui/icons';
 
 export default function Community() {
   const leaderboard = [

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/home/Navbar';
 import Footer from '../components/home/Footer';
 import LiquidGlassButton from '../components/ui/LiquidGlassButton';
-import { Target, Eye, Heart, Users, Globe2, Leaf } from 'lucide-react';
+import { Target, Eye, Heart, Users, Globe2, Leaf } from '../components/ui/icons';
 
 export default function About() {
   const values = [

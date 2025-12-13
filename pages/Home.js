@@ -6,7 +6,7 @@ import ServiceCard from '../components/home/ServiceCard';
 import Navbar from '../components/home/Navbar';
 import Footer from '../components/home/Footer';
 import LiquidGlassButton from '../components/ui/LiquidGlassButton';
-import { ArrowDown, Leaf, Globe2, Users } from 'lucide-react';
+import { ArrowDown, Leaf, Globe2, Users } from '../components/ui/icons';
 
 export default function Home() {
   const containerRef = useRef(null);
