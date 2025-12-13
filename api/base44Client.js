@@ -1,29 +1,33 @@
-// Minimal Base44 client shim for static/preview builds.
-// Replace with real API calls when you wire a backend.
+/**
+ * Base44 client shim for the exported UI.
+ * Replace this with your real backend integration later.
+ */
 export const base44 = {
   auth: {
     async me() {
-      // Try to read a mocked user from localStorage for demos.
-      if (typeof window !== "undefined") {
-        try {
-          const raw = window.localStorage.getItem("base44_user");
-          if (raw) return JSON.parse(raw);
-        } catch {}
-      }
-      return { id: "demo", role: "user", onboarding_completed: false };
+      return null;
+    },
+    async updateMe(patch) {
+      return { ...(patch || {}) };
+    },
+    async signIn() {
+      return { ok: true };
     },
     async signOut() {
-      if (typeof window !== "undefined") {
-        try { window.localStorage.removeItem("base44_user"); } catch {}
-      }
-      return true;
-    }
+      return { ok: true };
+    },
   },
-
-  // Generic table-like API used by some Base44 exports; keep it permissive.
-  async get() { return []; },
-  async list() { return []; },
-  async create() { return {}; },
-  async update() { return {}; },
-  async remove() { return true; }
+  entities: {
+    RecyclingActivity: {
+      async list() {
+        return [];
+      },
+      async create(data) {
+        return { id: String(Date.now()), ...data };
+      },
+      async delete() {
+        return { ok: true };
+      },
+    },
+  },
 };

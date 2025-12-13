@@ -1,27 +1,57 @@
 import * as React from "react";
 
-// Lightweight "shadcn-style" Select shims to match Base44 imports.
-// This is NOT a full headless UI select; it is a styled native select.
-export function Select({ value, onValueChange, children }) {
-  // Expect children to include <SelectItem value="...">Label</SelectItem>
-  const items = React.Children.toArray(children).filter(Boolean);
+/**
+ * Minimal "shadcn-like" select API to satisfy Base44 exports.
+ * This is not a full headless UI implementation; it's a lightweight wrapper so the app builds.
+ */
 
+export function Select({ children }) {
+  return <div className="relative">{children}</div>;
+}
+
+export function SelectTrigger({ className = "", children, ...props }) {
   return (
-    <select
-      value={value}
-      onChange={(e) => onValueChange?.(e.target.value)}
-      className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-white/20 focus:ring-2 focus:ring-white/10"
+    <button
+      type="button"
+      className={
+        "w-full flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white " +
+        "focus:border-white/20 focus:ring-2 focus:ring-white/10 " +
+        className
+      }
+      {...props}
     >
-      {items.map((child) => child)}
-    </select>
+      {children}
+    </button>
   );
 }
 
-export function SelectItem({ value, children }) {
-  return <option value={value}>{children}</option>;
+export function SelectValue({ placeholder = "Select...", children }) {
+  return <span className="text-white/90">{children || <span className="text-white/40">{placeholder}</span>}</span>;
 }
 
-// The following are no-ops to keep Base44 JSX compiling.
-export function SelectTrigger({ children }) { return <>{children}</>; }
-export function SelectValue({ placeholder }) { return <>{placeholder ?? null}</>; }
-export function SelectContent({ children }) { return <>{children}</>; }
+export function SelectContent({ className = "", children }) {
+  return (
+    <div
+      className={
+        "mt-2 rounded-xl border border-white/10 bg-black/60 backdrop-blur p-1 max-h-64 overflow-auto " +
+        className
+      }
+    >
+      {children}
+    </div>
+  );
+}
+
+export function SelectItem({ className = "", children, onSelect }) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={
+        "w-full text-left px-3 py-2 rounded-lg text-sm text-white/90 hover:bg-white/10 " + className
+      }
+    >
+      {children}
+    </button>
+  );
+}

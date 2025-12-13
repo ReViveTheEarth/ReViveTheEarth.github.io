@@ -1,9 +1,5 @@
-// Simple route helper used by Base44 exports.
 export function createPageUrl(pageName) {
+  // Base44 uses page names; in Next.js we map them to routes like /MyImpact
   if (!pageName) return "/";
-  if (pageName.startsWith("/")) return pageName;
-  // Common Base44 pattern: pageName matches a file in /pages
-  const clean = String(pageName).trim();
-  if (clean.toLowerCase() === "home") return "/";
-  return "/" + clean.replace(/\s+/g, "").replace(/[^a-zA-Z0-9_-]/g, "");
+  return "/" + String(pageName).replace(/^\/+/, "");
 }
