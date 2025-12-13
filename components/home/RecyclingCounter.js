@@ -1,1 +1,1 @@
-export { default } from "../../Components/home/RecyclingCounter";
+export { default } from "../../components/home/RecyclingCounter";

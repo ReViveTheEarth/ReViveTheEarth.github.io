@@ -1,1 +1,1 @@
-export { default } from "../../Components/home/Footer";
+export { default } from "../../components/home/Footer";

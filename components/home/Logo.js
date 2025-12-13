@@ -1,1 +1,1 @@
-export { default } from "../../Components/home/Logo";
+export { default } from "../../components/home/Logo";
