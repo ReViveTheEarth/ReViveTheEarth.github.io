@@ -1,57 +1,28 @@
 import * as React from "react";
 
 /**
- * Minimal "shadcn-like" select API to satisfy Base44 exports.
- * This is not a full headless UI implementation; it's a lightweight wrapper so the app builds.
+ * A simple select component with ReVive styling. This component does not
+ * implement a full-featured select dropdown like the shadcn/ui component, but
+ * provides basic styling compatible with Tailwind CSS.
  */
-
-export function Select({ children }) {
-  return <div className="relative">{children}</div>;
-}
-
-export function SelectTrigger({ className = "", children, ...props }) {
+export function Select({ className = "", children, ...props }) {
   return (
-    <button
-      type="button"
+    <select
       className={
-        "w-full flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white " +
-        "focus:border-white/20 focus:ring-2 focus:ring-white/10 " +
+        "w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white focus:outline-none " +
+        "focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30 " +
         className
       }
       {...props}
     >
       {children}
-    </button>
+    </select>
   );
 }
 
-export function SelectValue({ placeholder = "Select...", children }) {
-  return <span className="text-white/90">{children || <span className="text-white/40">{placeholder}</span>}</span>;
-}
+export const SelectTrigger = Select;
+export const SelectValue = ({ children }) => <>{children}</>;
+export const SelectContent = ({ children }) => <>{children}</>;
+export const SelectItem = ({ value, children }) => <option value={value}>{children}</option>;
 
-export function SelectContent({ className = "", children }) {
-  return (
-    <div
-      className={
-        "mt-2 rounded-xl border border-white/10 bg-black/60 backdrop-blur p-1 max-h-64 overflow-auto " +
-        className
-      }
-    >
-      {children}
-    </div>
-  );
-}
-
-export function SelectItem({ className = "", children, onSelect }) {
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={
-        "w-full text-left px-3 py-2 rounded-lg text-sm text-white/90 hover:bg-white/10 " + className
-      }
-    >
-      {children}
-    </button>
-  );
-}
+export default Select;
