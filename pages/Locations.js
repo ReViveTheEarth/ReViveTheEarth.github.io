@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import Navbar from '../Components/home/Navbar';
-import Footer from '../Components/home/Footer';
-import LiquidGlassButton from '../Components/ui/LiquidGlassButton';
+import Navbar from '../components/home/Navbar';
+import Footer from '../components/home/Footer';
+import LiquidGlassButton from '../components/ui/LiquidGlassButton';
 import { MapPin, Search, Clock, Phone, Navigation } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 

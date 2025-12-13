@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
-import LiquidGlassButton from '../Components/ui/LiquidGlassButton';
+import LiquidGlassButton from '../components/ui/LiquidGlassButton';
 import { User, GraduationCap, Building2, ArrowRight, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';

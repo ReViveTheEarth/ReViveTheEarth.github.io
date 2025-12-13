@@ -1,60 +1,90 @@
-// Minimal Base44 client shim for non-Base44 hosting (e.g., Vercel/Next.js).
-// It provides the methods used by this project so the UI can run.
+/**
+ * Base44 compatibility client.
+ * This project was exported from Base44, but deployed outside Base44.
+ * This shim uses browser localStorage so the app can build and run.
+ *
+ * Replace with a real backend (Supabase/Directus/etc.) when ready.
+ */
+function safeParse(json, fallback) {
+  try { return JSON.parse(json); } catch { return fallback; }
+}
+function isBrowser() { return typeof window !== "undefined"; }
 
-let _user = {
-  id: "demo-user",
-  email: "demo@revive.earth",
-  full_name: "Demo User",
-  total_recycled: 0
+const KEYS = {
+  user: "revive_user",
+  activities: "revive_recycling_activities"
 };
 
-let _records = [];
+function getUser() {
+  if (!isBrowser()) return { id: "server", total_recycled: 0 };
+  const raw = window.localStorage.getItem(KEYS.user);
+  return raw ? safeParse(raw, { id: "local", total_recycled: 0 }) : { id: "local", total_recycled: 0 };
+}
 
-function delay(ms = 50) {
-  return new Promise((r) => setTimeout(r, ms));
+function setUser(patch) {
+  if (!isBrowser()) return getUser();
+  const next = { ...getUser(), ...patch };
+  window.localStorage.setItem(KEYS.user, JSON.stringify(next));
+  return next;
+}
+
+function getActivities() {
+  if (!isBrowser()) return [];
+  const raw = window.localStorage.getItem(KEYS.activities);
+  return raw ? safeParse(raw, []) : [];
+}
+
+function setActivities(list) {
+  if (!isBrowser()) return;
+  window.localStorage.setItem(KEYS.activities, JSON.stringify(list));
+}
+
+function uid() {
+  return Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
 export const base44 = {
   auth: {
     async me() {
-      // Return a demo user so pages render.
-      await delay();
-      return _user;
+      return getUser();
     },
     async updateMe(patch) {
-      await delay();
-      _user = { ..._user, ...patch };
-      return _user;
+      return setUser(patch);
     },
-    redirectToLogin() {
-      // In a real Base44 app, this would redirect to the Base44 auth flow.
-      // Here we keep it simple.
-      if (typeof window !== "undefined") {
-        window.alert("Login is not configured on this deployment. (Demo mode)");
-      }
+    async isAuthenticated() {
+      // Treat having a user record as authenticated.
+      if (!isBrowser()) return true;
+      return !!window.localStorage.getItem(KEYS.user);
     },
     async logout() {
-      await delay();
-      _user = null;
-      return true;
+      if (!isBrowser()) return;
+      window.localStorage.removeItem(KEYS.user);
     }
   },
   entities: {
-    RecyclingRecord: {
-      async list() {
-        await delay();
-        return _records;
+    RecyclingActivity: {
+      async list(sort = "-created_date") {
+        const list = getActivities().slice();
+        const desc = sort.startsWith("-");
+        const key = sort.replace(/^[-+]/, "");
+        list.sort((a, b) => {
+          const av = a?.[key] ?? "";
+          const bv = b?.[key] ?? "";
+          return desc ? String(bv).localeCompare(String(av)) : String(av).localeCompare(String(bv));
+        });
+        return list;
       },
-      async create(record) {
-        await delay();
-        const newRec = { id: String(Date.now()), created_at: new Date().toISOString(), ...record };
-        _records = [newRec, ..._records];
-        return newRec;
+      async create(data) {
+        const record = { id: uid(), created_date: new Date().toISOString(), ...data };
+        const list = getActivities();
+        list.unshift(record);
+        setActivities(list);
+        return record;
       },
       async delete(id) {
-        await delay();
-        _records = _records.filter((r) => r.id !== id);
-        return true;
+        const list = getActivities().filter((x) => x.id !== id);
+        setActivities(list);
+        return { id };
       }
     }
   }

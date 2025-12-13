@@ -5,8 +5,8 @@ export const Input = React.forwardRef(function Input({ className = "", ...props 
     <input
       ref={ref}
       className={
-        "w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-white placeholder-white/50 outline-none " +
-        "focus:border-white/30 focus:bg-white/8 transition " +
+        "w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none " +
+        "placeholder:text-white/40 focus:border-white/20 focus:ring-2 focus:ring-white/10 " +
         className
       }
       {...props}
