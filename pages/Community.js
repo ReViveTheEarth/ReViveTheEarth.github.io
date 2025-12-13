@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import Navbar from '../components/home/Navbar';
-import Footer from '../components/home/Footer';
-import LiquidGlassButton from '../components/ui/LiquidGlassButton';
+import Navbar from '../Components/home/Navbar';
+import Footer from '../Components/home/Footer';
+import LiquidGlassButton from '../Components/ui/LiquidGlassButton';
 import { Users, Trophy, Heart, MessageSquare, Star, Award } from 'lucide-react';
 
 export default function Community() {

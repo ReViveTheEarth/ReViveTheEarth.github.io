@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import Logo from './Logo';
 import LiquidGlassButton from '../ui/LiquidGlassButton';
 import { Menu, X, User, LayoutDashboard, Settings, LogOut, ChevronDown } from 'lucide-react';
@@ -129,7 +129,7 @@ export default function Navbar() {
                         
                         <div className="p-2">
                           <Link
-                            to={createPageUrl('MyImpact')}
+                            href={createPageUrl('MyImpact')}
                             className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-white"
                             onClick={() => setProfileMenuOpen(false)}
                           >
@@ -137,7 +137,7 @@ export default function Navbar() {
                             <span className="text-sm">My Impact</span>
                           </Link>
                           <Link
-                            to={createPageUrl('Profile')}
+                            href={createPageUrl('Profile')}
                             className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-white"
                             onClick={() => setProfileMenuOpen(false)}
                           >
@@ -216,7 +216,7 @@ export default function Navbar() {
                     </div>
                   </div>
                   <Link
-                    to={createPageUrl('MyImpact')}
+                    href={createPageUrl('MyImpact')}
                     className="block mb-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
@@ -226,7 +226,7 @@ export default function Navbar() {
                     </LiquidGlassButton>
                   </Link>
                   <Link
-                    to={createPageUrl('Profile')}
+                    href={createPageUrl('Profile')}
                     className="block mb-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >

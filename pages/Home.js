@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import AnimatedEarth from '../components/home/AnimatedEarth';
-import RecyclingCounter from '../components/home/RecyclingCounter';
-import ServiceCard from '../components/home/ServiceCard';
-import Navbar from '../components/home/Navbar';
-import Footer from '../components/home/Footer';
-import LiquidGlassButton from '../components/ui/LiquidGlassButton';
+import AnimatedEarth from '../Components/home/AnimatedEarth';
+import RecyclingCounter from '../Components/home/RecyclingCounter';
+import ServiceCard from '../Components/home/ServiceCard';
+import Navbar from '../Components/home/Navbar';
+import Footer from '../Components/home/Footer';
+import LiquidGlassButton from '../Components/ui/LiquidGlassButton';
 import { ArrowDown, Leaf, Globe2, Users } from 'lucide-react';
 
 export default function Home() {
