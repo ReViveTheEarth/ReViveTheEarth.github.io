@@ -1,5 +1,5 @@
 import Layout from "../Layout";
-import Home from "../Pages/Home";
+import Home from "../pages/Home";
 
 export default function Page() {
   return (

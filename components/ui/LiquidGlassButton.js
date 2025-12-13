@@ -1,1 +1,1 @@
-export { default } from '../../Components/ui/LiquidGlassButton';
+export { default } from '../../components/ui/LiquidGlassButton';
