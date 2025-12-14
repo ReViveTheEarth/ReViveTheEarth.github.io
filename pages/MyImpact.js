@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { 
   TrendingUp, Plus, Leaf, Calendar, MapPin, Trash2, 
   Loader2, Award, Target 
-} from '../components/ui/icons';
+} from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function MyImpact() {
