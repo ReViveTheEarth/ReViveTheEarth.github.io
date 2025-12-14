@@ -1,3 +1,12 @@
+// LiquidGlassButton component
+//
+// A custom button used throughout the ReVive site.  It adds a subtle
+// parallax “liquid glass” effect on hover and adapts its size based on
+// the `size` prop (sm/md/lg).  This component was originally defined in
+// the uppercase `Components` directory; it has been brought into the
+// lower‑case `components/ui` folder so that all imports refer to a single
+// source of truth.
+
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
@@ -36,14 +45,14 @@ export default function LiquidGlassButton({ children, onClick, className = '', s
       `}
       style={{
         background: isHovering
-          ? `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
-              rgba(16, 185, 129, 0.4) 0%, 
+          ? `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%,
+              rgba(16, 185, 129, 0.4) 0%,
               rgba(6, 182, 212, 0.3) 30%,
               rgba(30, 58, 95, 0.6) 70%,
               rgba(10, 22, 40, 0.8) 100%)`
           : 'linear-gradient(135deg, rgba(30, 58, 95, 0.5) 0%, rgba(10, 22, 40, 0.7) 100%)',
         boxShadow: isHovering
-          ? `0 0 30px rgba(16, 185, 129, 0.3), 
+          ? `0 0 30px rgba(16, 185, 129, 0.3),
              0 0 60px rgba(6, 182, 212, 0.2),
              inset 0 1px 1px rgba(255, 255, 255, 0.1)`
           : '0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.05)'
@@ -56,19 +65,17 @@ export default function LiquidGlassButton({ children, onClick, className = '', s
         className="absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none"
         style={{
           opacity: isHovering ? 0.6 : 0,
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
-            rgba(52, 211, 153, 0.5) 0%, 
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%,
+            rgba(52, 211, 153, 0.5) 0%,
             transparent 50%)`
         }}
       />
-      
+
       {/* Top edge highlight */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-      
+
       {/* Content */}
-      <span className="relative z-10 text-white/90 flex items-center justify-center gap-2">
-        {children}
-      </span>
+      <span className="relative z-10 text-white/90 flex items-center justify-center gap-2">{children}</span>
     </motion.button>
   );
 }

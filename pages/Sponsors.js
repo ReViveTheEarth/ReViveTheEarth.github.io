@@ -5,56 +5,79 @@ import Footer from '../components/home/Footer';
 import LiquidGlassButton from '../components/ui/LiquidGlassButton';
 import { Check } from '@/components/ui/icons';
 
+// Sponsorship tier definitions. Each tier contains a name, price and a list of
+// benefits. This data drives the cards rendered on the page. Prices and
+// benefits mirror those shown on the original Base44 site.
+const tiers = [
+  {
+    name: 'Bronze Partner',
+    price: '$5,000/year',
+    benefits: [
+      'Logo on website footer',
+      'Recognition in monthly newsletter',
+      'Social media mention (quarterly)',
+      'Certificate of partnership'
+    ]
+  },
+  {
+    name: 'Silver Partner',
+    price: '$15,000/year',
+    benefits: [
+      'All Bronze benefits',
+      'Logo on homepage',
+      'Featured in annual impact report',
+      'Social media mentions (monthly)',
+      'Branded recycling hub at your location',
+      'Quarterly impact reports'
+    ]
+  },
+  {
+    name: 'Gold Partner',
+    price: '$50,000/year',
+    mostPopular: true,
+    benefits: [
+      'All Silver benefits',
+      'Premium homepage placement',
+      'Speaking opportunities at events',
+      'Co‑branded marketing campaigns',
+      'Multiple branded recycling hubs',
+      'Dedicated account manager',
+      'Custom impact dashboard',
+      'Press release for partnership'
+    ]
+  },
+  {
+    name: 'Platinum Partner',
+    price: 'Custom',
+    benefits: [
+      'All Gold benefits',
+      'Title sponsorship opportunities',
+      'Board advisory position',
+      'Custom sustainability programs',
+      'Regional network of branded hubs',
+      'Joint research initiatives',
+      'Executive sustainability workshops',
+      'Global impact partnership recognition'
+    ]
+  }
+];
+
+// Partner logos and levels. These are simple text representations rather than
+// actual images to keep the bundle lightweight. In a real application you
+// would replace these with SVG logos or image assets.
+const partners = [
+  { name: 'TechCorp Global', level: 'Gold' },
+  { name: 'Green Solutions Inc.', level: 'Platinum' },
+  { name: 'EcoBank', level: 'Silver' },
+  { name: 'Future Foods', level: 'Gold' },
+  { name: 'Clean Energy Co.', level: 'Silver' },
+  { name: 'Sustainable Fashion', level: 'Bronze' }
+];
+
 export default function Sponsors() {
-  const tiers = [
-    {
-      name: 'Seed Partner',
-      price: '$5,000',
-      description: 'Support local hubs and student-led recycling drives.',
-      features: [
-        'Logo on Sponsors page',
-        'Quarterly impact report',
-        'Social media shoutout',
-        'Access to partner toolkit'
-      ]
-    },
-    {
-      name: 'Growth Partner',
-      price: '$15,000',
-      description: 'Scale drop-off locations and community challenges.',
-      featured: true,
-      features: [
-        'Everything in Seed',
-        'Featured partner placement',
-        'Dedicated impact dashboard',
-        'Co-branded community event',
-        'Annual partner spotlight'
-      ]
-    },
-    {
-      name: 'Legacy Partner',
-      price: '$50,000+',
-      description: 'Power global expansion and major sustainability initiatives.',
-      features: [
-        'Everything in Growth',
-        'Custom partnership package',
-        'Executive impact briefing',
-        'Priority co-branding opportunities',
-        'On-site activation support'
-      ]
-    }
-  ];
-
-  const partners = [
-    { name: 'GreenTech Solutions', level: 'Legacy Partner', blurb: 'Building smarter recycling infrastructure.' },
-    { name: 'EcoLogistics', level: 'Growth Partner', blurb: 'Moving materials efficiently across regions.' },
-    { name: 'Campus Earth Coalition', level: 'Growth Partner', blurb: 'Student-led sustainability programs.' },
-    { name: 'Circular Materials Co.', level: 'Seed Partner', blurb: 'Helping close the loop on plastics.' },
-  ];
-
   return (
     <div
-      className="min-h-screen bg-slate-950 text-white overflow-x-hidden"
+      className="min-h-screen bg-slate-950 text-white"
       style={{
         background:
           'radial-gradient(ellipse at 50% 0%, rgba(30, 58, 95, 0.3) 0%, rgba(10, 22, 40, 1) 50%, rgba(2, 6, 12, 1) 100%)'
@@ -62,152 +85,171 @@ export default function Sponsors() {
     >
       <Navbar />
 
-      <main className="pt-28 px-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Hero */}
-          <div className="text-center max-w-3xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 backdrop-blur-xl border border-white/10"
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+        <div className="absolute top-20 right-0 w-96 h-96 bg-gradient-to-br from-emerald-500/20 to-cyan-500/10 rounded-full blur-3xl" />
+        <div className="relative max-w-5xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            {/* Tagline */}
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 backdrop-blur-xl border border-white/10"
               style={{
                 background:
                   'linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%)'
               }}
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-emerald-400/90 text-sm font-medium">Partner With ReVive</span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.05 }}
-              className="text-4xl md:text-6xl font-bold tracking-tight"
-            >
-              <span className="text-white">Fuel a</span>{' '}
+              <span className="text-emerald-400/90 text-sm font-medium">Partner with Us</span>
+            </div>
+            {/* Heading */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
+              <span className="text-white">Become a </span>
               <span
                 style={{
-                  background:
-                    'linear-gradient(135deg, #34D399 0%, #06B6D4 50%, #60A5FA 100%)',
+                  background: 'linear-gradient(135deg, #34D399 0%, #06B6D4 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent'
                 }}
               >
-                Circular Economy
+                ReVive Sponsor
               </span>
-            </motion.h1>
+            </h1>
+            <p className="text-lg md:text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
+              Partner with the world’s leading recycling network and showcase your commitment to environmental sustainability to millions globally.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
-            <motion.p
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.12 }}
-              className="mt-6 text-lg text-white/60 leading-relaxed"
-            >
-              Sponsorship accelerates drop-off locations, community challenges, and verified impact tracking.
-              Join partners building the next generation of recycling infrastructure.
-            </motion.p>
-          </div>
-
-          {/* Tiers */}
-          <section className="mt-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {tiers.map((tier) => (
-                <motion.div
-                  key={tier.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className="relative rounded-3xl p-8 border border-white/10 backdrop-blur-2xl"
-                  style={{
-                    background: tier.featured
-                      ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(6, 182, 212, 0.12) 100%)'
-                      : 'linear-gradient(135deg, rgba(30, 58, 95, 0.35) 0%, rgba(10, 22, 40, 0.55) 100%)'
-                  }}
-                >
-                  {tier.featured && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold text-emerald-100 border border-emerald-400/30"
-                      style={{ background: 'rgba(16, 185, 129, 0.18)' }}
-                    >
-                      Most Popular
-                    </div>
-                  )}
-
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h3 className="text-xl font-semibold">{tier.name}</h3>
-                    <span className="text-2xl font-bold">{tier.price}</span>
-                  </div>
-                  <p className="mt-3 text-white/55">{tier.description}</p>
-
-                  <ul className="mt-6 space-y-3">
-                    {tier.features.map((f) => (
-                      <li key={f} className="flex items-start gap-3 text-sm text-white/70">
-                        <Check className="w-4 h-4 mt-0.5 text-emerald-400" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-8">
-                    <LiquidGlassButton size="md" className="w-full">
-                      Become a Partner
-                    </LiquidGlassButton>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-
-          {/* Partner grid */}
-          <section className="mt-20">
-            <div className="flex items-end justify-between gap-6 flex-wrap">
-              <div>
-                <h2 className="text-2xl md:text-3xl font-bold">Current Partners</h2>
-                <p className="mt-2 text-white/55 max-w-2xl">
-                  Organizations already helping expand ReVive’s recycling network.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {partners.map((p) => (
-                <div
-                  key={p.name}
-                  className="rounded-3xl p-6 border border-white/10 backdrop-blur-2xl"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(30, 58, 95, 0.35) 0%, rgba(10, 22, 40, 0.55) 100%)'
-                  }}
-                >
-                  <div className="text-sm text-emerald-300/90 font-medium">{p.level}</div>
-                  <div className="mt-2 text-lg font-semibold">{p.name}</div>
-                  <p className="mt-2 text-sm text-white/55">{p.blurb}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* CTA */}
-          <section className="mt-20">
-            <div
-              className="rounded-3xl border border-white/10 p-10 md:p-12 backdrop-blur-2xl text-center"
+      {/* Tier Cards */}
+      <section className="relative py-20 px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {tiers.map((tier, index) => (
+            <motion.div
+              key={tier.name}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="relative backdrop-blur-xl rounded-3xl p-8 border border-white/10"
               style={{
-                background:
-                  'linear-gradient(135deg, rgba(16, 185, 129, 0.14) 0%, rgba(96, 165, 250, 0.10) 100%)'
+                background: 'linear-gradient(135deg, rgba(30, 58, 95, 0.5) 0%, rgba(10, 22, 40, 0.7) 100%)'
               }}
             >
-              <h3 className="text-2xl md:text-3xl font-bold">Interested in a custom partnership package?</h3>
-              <p className="mt-3 text-white/60 max-w-2xl mx-auto">
-                We’ll tailor a sponsorship to your organization’s sustainability goals, reporting needs, and activation plans.
-              </p>
-              <div className="mt-8 flex justify-center">
-                <LiquidGlassButton size="lg">Contact Us</LiquidGlassButton>
+              {tier.mostPopular && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span className="text-xs uppercase font-medium px-3 py-1 rounded-full bg-emerald-500 text-white shadow-lg">
+                    Most Popular
+                  </span>
+                </div>
+              )}
+              <h3 className="text-2xl font-bold text-white mb-3">{tier.name}</h3>
+              <div className="text-xl text-emerald-400 font-semibold mb-4">{tier.price}</div>
+              <ul className="space-y-3 mb-6">
+                {tier.benefits.map((benefit) => (
+                  <li key={benefit} className="flex items-start gap-3 text-white/60">
+                    <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-1" />
+                    <span>{benefit}</span>
+                  </li>
+                ))}
+              </ul>
+              <LiquidGlassButton size="md">Get Started</LiquidGlassButton>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Our Partners */}
+      <section className="relative py-20 px-6">
+        <div className="max-w-7xl mx-auto text-center mb-12">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-3xl md:text-5xl font-bold mb-4"
+          >
+            <span className="text-white">Our </span>
+            <span
+              style={{
+                background: 'linear-gradient(135deg, #34D399 0%, #06B6D4 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              Partners
+            </span>
+          </motion.h2>
+          <p className="text-white/60 max-w-2xl mx-auto">
+            Companies leading the way in environmental responsibility
+          </p>
+        </div>
+        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {partners.map((partner) => (
+            <div
+              key={partner.name}
+              className="backdrop-blur-xl rounded-2xl p-6 border border-white/10 text-center"
+              style={{
+                background: 'linear-gradient(135deg, rgba(30, 58, 95, 0.5) 0%, rgba(10, 22, 40, 0.7) 100%)'
+              }}
+            >
+              {/* Placeholder circle for logo */}
+              <div
+                className="w-12 h-12 mb-4 mx-auto rounded-xl bg-emerald-500/20 flex items-center justify-center"
+                style={{ boxShadow: '0 0 20px rgba(16, 185, 129, 0.15)' }}
+              >
+                <span className="text-emerald-400 font-bold text-lg">
+                  {partner.name.charAt(0)}
+                </span>
+              </div>
+              <div className="font-semibold text-white mb-1">{partner.name}</div>
+              <div
+                className={`text-sm font-medium ${
+                  partner.level === 'Platinum'
+                    ? 'text-purple-400'
+                    : partner.level === 'Gold'
+                    ? 'text-yellow-400'
+                    : partner.level === 'Silver'
+                    ? 'text-slate-400'
+                    : 'text-emerald-400'
+                }`}
+              >
+                {partner.level}
               </div>
             </div>
-          </section>
+          ))}
         </div>
-      </main>
+      </section>
+
+      {/* Contact CTA */}
+      <section className="relative py-20 px-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="max-w-4xl mx-auto text-center"
+        >
+          <div
+            className="relative rounded-3xl p-12 md:p-16 backdrop-blur-2xl border border-white/10"
+            style={{
+              background: 'linear-gradient(135deg, rgba(30, 58, 95, 0.5) 0%, rgba(10, 22, 40, 0.7) 100%)'
+            }}
+          >
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+              Ready to Make a Difference?
+            </h2>
+            <p className="text-white/60 text-lg mb-10">
+              Contact us to discuss a custom sponsorship package that aligns with your sustainability goals.
+            </p>
+            <LiquidGlassButton size="lg">Contact Us</LiquidGlassButton>
+          </div>
+        </motion.div>
+      </section>
 
       <Footer />
     </div>

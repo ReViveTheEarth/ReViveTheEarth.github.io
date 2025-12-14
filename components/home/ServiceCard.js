@@ -1,3 +1,9 @@
+// Service card component for the home page.
+//
+// Displays a card with an icon, title, description and a call‑to‑action
+// button.  Uses icons imported from the centralized icon registry instead of
+// directly referencing `lucide-react`.
+
 import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import LiquidGlassButton from '../ui/LiquidGlassButton';
@@ -9,15 +15,9 @@ const icons = {
   organizations: Building2
 };
 
-export default function ServiceCard({ 
-  type, 
-  title, 
-  description, 
-  buttonText, 
-  index = 0 
-}) {
+export default function ServiceCard({ type, title, description, buttonText, index = 0 }) {
   const cardRef = useRef(null);
-  const isInView = useInView(cardRef, { once: true, margin: "-100px" });
+  const isInView = useInView(cardRef, { once: true, margin: '-100px' });
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
 
@@ -44,11 +44,11 @@ export default function ServiceCard({
       className="group relative"
     >
       {/* Card */}
-      <div 
+      <div
         className="relative h-full rounded-3xl p-8 backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500"
         style={{
           background: `linear-gradient(135deg, rgba(30, 58, 95, 0.5) 0%, rgba(10, 22, 40, 0.7) 100%)`,
-          boxShadow: isHovering 
+          boxShadow: isHovering
             ? `0 25px 60px -15px rgba(0, 0, 0, 0.5), 0 0 40px rgba(16, 185, 129, 0.15)`
             : '0 15px 40px -10px rgba(0, 0, 0, 0.4)'
         }}
@@ -57,10 +57,7 @@ export default function ServiceCard({
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
           style={{
-            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
-              rgba(16, 185, 129, 0.2) 0%, 
-              rgba(6, 182, 212, 0.1) 30%,
-              transparent 60%)`
+            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.1) 30%, transparent 60%)`
           }}
         />
 
@@ -68,7 +65,7 @@ export default function ServiceCard({
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
         {/* Icon */}
-        <motion.div 
+        <motion.div
           className="relative mb-6 inline-flex items-center justify-center w-14 h-14 rounded-2xl"
           style={{
             background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.2) 100%)',
@@ -80,19 +77,13 @@ export default function ServiceCard({
         </motion.div>
 
         {/* Title */}
-        <h3 className="text-xl md:text-2xl font-bold text-white mb-4 tracking-tight">
-          {title}
-        </h3>
+        <h3 className="text-xl md:text-2xl font-bold text-white mb-4 tracking-tight">{title}</h3>
 
         {/* Description */}
-        <p className="text-white/60 leading-relaxed mb-8 text-sm md:text-base">
-          {description}
-        </p>
+        <p className="text-white/60 leading-relaxed mb-8 text-sm md:text-base">{description}</p>
 
         {/* Button */}
-        <LiquidGlassButton size="md">
-          {buttonText}
-        </LiquidGlassButton>
+        <LiquidGlassButton size="md">{buttonText}</LiquidGlassButton>
 
         {/* Corner accent */}
         <div className="absolute -bottom-20 -right-20 w-40 h-40 rounded-full bg-gradient-to-br from-emerald-500/10 to-cyan-500/5 blur-2xl group-hover:scale-150 transition-transform duration-700" />

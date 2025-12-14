@@ -8,9 +8,16 @@ import LiquidGlassButton from '../components/ui/LiquidGlassButton';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  TrendingUp, Plus, Leaf, Calendar, MapPin, Trash2, 
-  Loader2, Award, Target 
+import {
+  TrendingUp,
+  Plus,
+  Leaf,
+  Calendar,
+  MapPin,
+  Trash2,
+  Loader2,
+  Award,
+  Target
 } from '@/components/ui/icons';
 import { format } from 'date-fns';
 

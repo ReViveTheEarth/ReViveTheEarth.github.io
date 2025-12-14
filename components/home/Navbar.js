@@ -1,3 +1,11 @@
+// Navigation bar component
+//
+// This implementation is adapted from the original Base44 project.  It has
+// been moved into the lower‑case `components` directory and updated to
+// import its icons from the local icon collection.  The navigation links
+// preserve their original casing (e.g. "/About"), and a new "Sponsors"
+// item has been added to mirror the original site's menu.
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
@@ -5,7 +13,15 @@ import { createPageUrl } from '@/utils';
 import Link from 'next/link';
 import Logo from './Logo';
 import LiquidGlassButton from '../ui/LiquidGlassButton';
-import { Menu, X, User, LayoutDashboard, Settings, LogOut, ChevronDown } from '@/components/ui/icons';
+import {
+  Menu,
+  X,
+  User,
+  LayoutDashboard,
+  Settings,
+  LogOut,
+  ChevronDown
+} from '@/components/ui/icons';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -41,8 +57,14 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await base44.auth.logout();
+    // After logout, refresh the auth state
+    setIsAuthenticated(false);
+    setUser(null);
   };
 
+  // List of top‑level navigation items.  The order and names here
+  // determine both the desktop and mobile menus.  Adding "Sponsors"
+  // ensures the sponsor page is reachable from the header.
   const navItems = ['About', 'Impact', 'Locations', 'Community', 'Sponsors'];
 
   return (
@@ -56,12 +78,12 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6">
-          <div 
+          <div
             className={`relative flex items-center justify-between rounded-2xl px-6 py-3 transition-all duration-500 ${
               scrolled ? 'backdrop-blur-2xl' : 'backdrop-blur-sm'
             }`}
             style={{
-              background: scrolled 
+              background: scrolled
                 ? 'linear-gradient(135deg, rgba(30, 58, 95, 0.8) 0%, rgba(10, 22, 40, 0.9) 100%)'
                 : 'linear-gradient(135deg, rgba(30, 58, 95, 0.3) 0%, rgba(10, 22, 40, 0.4) 100%)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -104,7 +126,9 @@ export default function Navbar() {
                       {user.full_name?.charAt(0) || user.email?.charAt(0) || 'U'}
                     </div>
                     <span className="text-white text-sm">{user.full_name || 'User'}</span>
-                    <ChevronDown className={`w-4 h-4 text-white/60 transition-transform ${profileMenuOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown
+                      className={`w-4 h-4 text-white/60 transition-transform ${profileMenuOpen ? 'rotate-180' : ''}`}
+                    />
                   </button>
 
                   <AnimatePresence>
@@ -126,7 +150,7 @@ export default function Navbar() {
                             {(user.total_recycled || 0).toFixed(1)} kg recycled
                           </div>
                         </div>
-                        
+
                         <div className="p-2">
                           <Link
                             href={createPageUrl('MyImpact')}
@@ -167,7 +191,7 @@ export default function Navbar() {
             </div>
 
             {/* Mobile Menu Toggle */}
-            <button 
+            <button
               className="md:hidden text-white/70 hover:text-white p-2"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
@@ -180,7 +204,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <motion.div
         initial={false}
-        animate={{ 
+        animate={{
           opacity: mobileMenuOpen ? 1 : 0,
           y: mobileMenuOpen ? 0 : -20,
           pointerEvents: mobileMenuOpen ? 'auto' : 'none'
@@ -188,7 +212,7 @@ export default function Navbar() {
         transition={{ duration: 0.3 }}
         className="fixed top-24 left-6 right-6 z-40 md:hidden"
       >
-        <div 
+        <div
           className="rounded-2xl p-6 backdrop-blur-2xl border border-white/10"
           style={{
             background: 'linear-gradient(135deg, rgba(30, 58, 95, 0.95) 0%, rgba(10, 22, 40, 0.98) 100%)'
@@ -236,7 +260,10 @@ export default function Navbar() {
                     </LiquidGlassButton>
                   </Link>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      handleLogout();
+                    }}
                     className="w-full px-6 py-3 rounded-xl text-red-400 border border-red-500/30 hover:bg-red-500/10 transition-colors"
                   >
                     <LogOut className="w-4 h-4 inline mr-2" />

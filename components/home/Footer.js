@@ -1,3 +1,8 @@
+// Footer component
+// This is the extended footer used across the site. It has been moved from the
+// original `Components` folder into the lower‑case `components` directory and
+// updated to import icons from the local icon collection.
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import Logo from './Logo';
@@ -14,7 +19,7 @@ export default function Footer() {
     <footer className="relative mt-32">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/50 to-transparent pointer-events-none" />
-      
+
       <div className="relative max-w-7xl mx-auto px-6 py-16">
         {/* Top section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
@@ -24,7 +29,7 @@ export default function Footer() {
             <p className="mt-6 text-white/50 leading-relaxed max-w-sm">
               Building a circular economy, one kilogram at a time. Join our global network of recyclers making real impact.
             </p>
-            
+
             <div className="mt-8 space-y-3">
               <a href="#" className="flex items-center gap-3 text-white/50 hover:text-emerald-400 transition-colors">
                 <Mail className="w-4 h-4" />
@@ -47,8 +52,8 @@ export default function Footer() {
                 <ul className="space-y-3">
                   {items.map((item) => (
                     <li key={item}>
-                      <a 
-                        href="#" 
+                      <a
+                        href="#"
                         className="text-white/50 hover:text-white text-sm transition-colors flex items-center gap-1 group"
                       >
                         {item}
@@ -70,7 +75,7 @@ export default function Footer() {
           <p className="text-white/40 text-sm">
             © 2024 ReVive. Building tomorrow's world, today.
           </p>
-          
+
           <div className="flex items-center gap-6">
             <a href="#" className="text-white/40 hover:text-white text-sm transition-colors">Privacy</a>
             <a href="#" className="text-white/40 hover:text-white text-sm transition-colors">Terms</a>

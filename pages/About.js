@@ -3,27 +3,12 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/home/Navbar';
 import Footer from '../components/home/Footer';
 import LiquidGlassButton from '../components/ui/LiquidGlassButton';
-import { Target, Eye, Heart, Users, Globe2, Leaf } from '@/components/ui/icons';
+import { Target, Eye, Heart } from '@/components/ui/icons';
 
 export default function About() {
-  const values = [
-    {
-      icon: Target,
-      title: 'Transparency',
-      description: 'Every kilogram tracked, every impact measured. We believe in radical transparency in the recycling process.'
-    },
-    {
-      icon: Users,
-      title: 'Community',
-      description: 'Together we\'re stronger. Building a global network of individuals and organizations committed to change.'
-    },
-    {
-      icon: Leaf,
-      title: 'Sustainability',
-      description: 'Not just recycling—creating a circular economy where waste becomes a resource for tomorrow.'
-    }
-  ];
-
+  // Note: The original Base44 about page did not include a separate core values
+  // section.  We removed the values array and the corresponding UI section to
+  // match the design of the base site.
   const timeline = [
     { year: '2020', title: 'The Beginning', description: 'Founded with a vision to revolutionize recycling' },
     { year: '2021', title: 'First 100 Hubs', description: 'Expanded to 100 collection points across 5 countries' },
@@ -139,52 +124,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Values */}
-      <section className="relative py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">
-              <span className="text-white">Our </span>
-              <span 
-                style={{
-                  background: 'linear-gradient(135deg, #34D399 0%, #06B6D4 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
-                }}
-              >
-                Core Values
-              </span>
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {values.map((value, index) => (
-              <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="relative backdrop-blur-xl rounded-3xl p-8 border border-white/10"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(30, 58, 95, 0.5) 0%, rgba(10, 22, 40, 0.7) 100%)'
-                }}
-              >
-                <value.icon className="w-12 h-12 text-emerald-400 mb-4" />
-                <h3 className="text-xl font-bold text-white mb-3">{value.title}</h3>
-                <p className="text-white/60 leading-relaxed">{value.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      {/* Values section removed to match the original Base44 design */}
       {/* Timeline */}
       <section className="relative py-20 px-6">
         <div className="max-w-5xl mx-auto">

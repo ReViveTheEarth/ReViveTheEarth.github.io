@@ -1,3 +1,8 @@
+// AnimatedEarth component
+// This component renders an animated earth with orbiting rings and continental patterns.
+// It has been moved from the original `Components` folder into the lower‑case `components` directory
+// so that imports are case‑consistent on case‑sensitive file systems.
+
 import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
@@ -25,21 +30,21 @@ export default function AnimatedEarth() {
     >
       {/* Earth Container */}
       <div className="relative w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[900px] lg:h-[900px]">
-        
         {/* Outer glow */}
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500/20 via-cyan-500/10 to-blue-600/20 blur-3xl animate-pulse" />
-        
+
         {/* Main Earth sphere */}
-        <div className="absolute inset-8 md:inset-12 lg:inset-16 rounded-full overflow-hidden"
+        <div
+          className="absolute inset-8 md:inset-12 lg:inset-16 rounded-full overflow-hidden"
           style={{
-            background: `
+            background: `\
               radial-gradient(circle at 30% 30%, 
                 rgba(16, 185, 129, 0.9) 0%,
                 rgba(6, 182, 212, 0.7) 25%,
                 rgba(30, 64, 175, 0.8) 50%,
                 rgba(15, 23, 42, 0.95) 100%)
             `,
-            boxShadow: `
+            boxShadow: `\
               inset -30px -30px 60px rgba(0, 0, 0, 0.5),
               inset 20px 20px 40px rgba(52, 211, 153, 0.3),
               0 0 100px rgba(16, 185, 129, 0.3),
@@ -50,20 +55,26 @@ export default function AnimatedEarth() {
           {/* Continental patterns - stylized */}
           <div className="absolute inset-0">
             {/* North America */}
-            <div className="absolute top-[15%] left-[10%] w-[30%] h-[25%] rounded-full bg-emerald-400/40 blur-xl" 
-              style={{ clipPath: 'polygon(20% 0%, 80% 10%, 100% 60%, 70% 100%, 10% 80%)' }} />
-            
+            <div
+              className="absolute top-[15%] left-[10%] w-[30%] h-[25%] rounded-full bg-emerald-400/40 blur-xl"
+              style={{ clipPath: 'polygon(20% 0%, 80% 10%, 100% 60%, 70% 100%, 10% 80%)' }}
+            />
+
             {/* South America */}
-            <div className="absolute top-[45%] left-[20%] w-[15%] h-[35%] rounded-full bg-emerald-500/35 blur-lg"
-              style={{ clipPath: 'polygon(30% 0%, 70% 5%, 60% 100%, 20% 90%)' }} />
-            
+            <div
+              className="absolute top-[45%] left-[20%] w-[15%] h-[35%] rounded-full bg-emerald-500/35 blur-lg"
+              style={{ clipPath: 'polygon(30% 0%, 70% 5%, 60% 100%, 20% 90%)' }}
+            />
+
             {/* Europe/Africa */}
             <div className="absolute top-[20%] left-[45%] w-[20%] h-[50%] rounded-full bg-teal-400/40 blur-xl" />
-            
+
             {/* Asia */}
-            <div className="absolute top-[10%] right-[10%] w-[35%] h-[40%] rounded-full bg-cyan-400/35 blur-xl"
-              style={{ clipPath: 'polygon(0% 20%, 40% 0%, 100% 30%, 80% 100%, 20% 80%)' }} />
-            
+            <div
+              className="absolute top-[10%] right-[10%] w-[35%] h-[40%] rounded-full bg-cyan-400/35 blur-xl"
+              style={{ clipPath: 'polygon(0% 20%, 40% 0%, 100% 30%, 80% 100%, 20% 80%)' }}
+            />
+
             {/* Australia */}
             <div className="absolute bottom-[20%] right-[15%] w-[15%] h-[15%] rounded-full bg-emerald-400/40 blur-lg" />
           </div>
@@ -78,7 +89,8 @@ export default function AnimatedEarth() {
           </div>
 
           {/* Atmosphere glow */}
-          <div className="absolute inset-0 rounded-full"
+          <div
+            className="absolute inset-0 rounded-full"
             style={{
               background: 'radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 50%)'
             }}
