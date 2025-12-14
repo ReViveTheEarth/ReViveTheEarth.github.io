@@ -74,9 +74,6 @@ export const Calendar = make("Calendar");
 export const Check = make("Check");
 export const XCircle = make("XCircle");
 
-// Dates / scheduling
-export const Calendar = make("Calendar");
-
 // Auth / profile
 export const User = make("User");
 export const GraduationCap = make("GraduationCap");
