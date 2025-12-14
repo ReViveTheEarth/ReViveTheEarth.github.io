@@ -16,12 +16,12 @@ export function createPageUrl(page) {
   if (!page) return "/";
   // If the string already starts with a slash assume it's a path and return as-is
   if (page.startsWith("/")) return page;
-  // Convert CamelCase page names to lowercase route names
-  const lower = page
-    // Insert a dash between lowercase to uppercase transitions (not used here)
-    // .replace(/([a-z])([A-Z])/g, "$1-$2")
-    .replace(/([A-Z])/g, (match, letter, index) => {
-      return letter.toLowerCase();
-    });
-  return `/${lower}`;
+
+  // Next.js (pages router) builds routes from file names. In this project the
+  // route files are PascalCase (e.g., pages/About.js), so the URL path must
+  // preserve that casing (e.g., /About). Base44 also used these exact paths.
+  //
+  // Special-case the landing page so “Home” links to “/”.
+  if (page === "Home") return "/";
+  return `/${page}`;
 }
