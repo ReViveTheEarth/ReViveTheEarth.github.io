@@ -42,7 +42,8 @@ export default function MyImpact() {
     try {
       const userData = await base44.auth.me();
       if (!userData.onboarding_completed) {
-        window.location.href = '/onboarding';
+        // Redirect to the capitalized Onboarding route to match the file name
+        window.location.href = '/Onboarding';
         return;
       }
       setUser(userData);

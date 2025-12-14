@@ -94,7 +94,10 @@ export default function Navbar() {
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-t-2xl" />
 
             {/* Logo */}
-            <Logo size="sm" />
+            {/* Wrap the logo in a Link so clicking it navigates to the home page. */}
+            <Link href={createPageUrl('Home')} className="flex items-center">
+              <Logo size="sm" />
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
