@@ -1,1 +1,1 @@
-export { default } from "../../Components/home/AnimatedEarth";
+export { default } from "../../components/home/AnimatedEarth";
