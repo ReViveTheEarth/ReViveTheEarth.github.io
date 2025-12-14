@@ -64,6 +64,19 @@ export const Navigation = make("Navigation");
 export const Mail = make("Mail");
 export const ArrowUpRight = make("ArrowUpRight");
 
+// Common UI actions
+export const Plus = make("Plus");
+export const Minus = make("Minus");
+export const Trash2 = make("Trash2");
+export const Edit = make("Edit");
+export const Pencil = make("Pencil");
+export const Calendar = make("Calendar");
+export const Check = make("Check");
+export const XCircle = make("XCircle");
+
+// Dates / scheduling
+export const Calendar = make("Calendar");
+
 // Auth / profile
 export const User = make("User");
 export const GraduationCap = make("GraduationCap");
